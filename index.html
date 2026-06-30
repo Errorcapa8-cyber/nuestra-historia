@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Alguien Especial 🌻💛</title>
+    <style>
+        /* --- PALETA DE COLORES Y BASES --- */
+        :root {
+            --bg-gradiente: linear-gradient(135deg, #fef9e7 0%, #fcf3cf 100%);
+            --amarillo-pastel: #f9e79f;
+            --amarillo-dorado: #f1c40f;
+            --amarillo-oscuro: #d4ac0d;
+            --marron-suave: #7e5109;
+            --verde-suave: #a3e4d7;
+            --blanco-crema: #fdfefe;
+            --morado-bts: #8e44ad;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradiente);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* --- GIRASOLES ESPARCIDOS POR TODA LA PANTALLA --- */
+        .girasol-fondo {
+            position: absolute;
+            font-size: 4.5rem;
+            opacity: 0.25;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+            filter: drop-shadow(0 5px 8px rgba(0,0,0,0.05));
+        }
+
+        /* --- EFECTO PÉTALOS FLOTANTES --- */
+        .petalo {
+            position: absolute;
+            background-color: #f4d03f;
+            border-radius: 0 50% 0 50%;
+            opacity: 0.6;
+            pointer-events: none;
+            animation: flotarArriba 8s linear infinite;
+            bottom: -50px;
+            z-index: 2;
+        }
+
+        @keyframes flotarArriba {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .contenedor {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            height: 650px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* --- REPRODUCTOR DE AUDIO FLOTANTE --- */
+        .btn-audio {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid var(--amarillo-dorado);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .btn-audio:hover { transform: scale(1.1); }
+
+        /* --- PASO 1: EL SOBRE CSS --- */
+        .sobre-wrapper {
+            position: relative;
+            width: 340px;
+            height: 230px;
+            background-color: var(--amarillo-pastel);
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: transform 0.5s, opacity 0.5s;
+            z-index: 10;
+        }
+
+        .sobre-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 170px solid transparent;
+            border-right: 170px solid transparent;
+            border-top: 130px solid var(--amarillo-dorado);
+            transform-origin: top;
+            transition: transform 0.4s ease 0.2s;
+            z-index: 5;
+        }
+
+        .sobre-interior {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 0 0 10px 10px;
+        }
+        .sobre-interior::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 170px solid transparent;
+            border-right: 170px solid transparent;
+            border-bottom: 130px solid #f5b041;
+            z-index: 4;
+        }
+
+        .sello-girasol {
+            position: absolute;
+            top: 105px;
+            left: 154px;
+            width: 32px;
+            height: 32px;
+            background-color: var(--marron-suave);
+            border-radius: 50%;
+            border: 4px dashed var(--amarillo-dorado);
+            z-index: 6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .sobre-wrapper.abierto::before { transform: rotateX(180deg); z-index: 1; }
+        .sobre-wrapper.abierto .sello-girasol { display: none; }
+
+        /* --- PASO 2: CARTA --- */
+        .tarjeta {
+            position: absolute;
+            width: 95%;
+            max-width: 600px;
+            background: var(--blanco-crema);
+            border-radius: 24px;
+            padding: 50px 45px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+            border: 2.5px solid var(--amarillo-pastel);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(100px) scale(0.8);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .tarjeta.activa {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+            position: relative;
+        }
+
+        .texto-carta {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #4a4a4a;
+            margin-bottom: 30px;
+            white-space: pre-line;
+        }
+
+        .guiño-bts {
+            font-weight: 600;
+            color: var(--morado-bts);
+            margin: 15px 0;
+            font-size: 1.3rem;
+        }
+
+        .pregunta {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: var(--marron-suave);
+            margin-top: 25px;
+            margin-bottom: 35px;
+        }
+
+        /* --- BLOQUE DE BOTONES --- */
+        .bloque-botones {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            height: 80px;
+        }
+
+        .btn {
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .btn-si {
+            padding: 12px 45px;
+            font-size: 1.15rem;
+            background-color: var(--amarillo-dorado);
+            color: white;
+            transition: background 0.3s, transform 0.1s ease;
+        }
+        .btn-si:hover { background-color: var(--amarillo-oscuro); transform: scale(1.05); }
+
+        .btn-no {
+            padding: 10px 28px;
+            font-size: 1rem;
+            background-color: #f2f4f4;
+            color: #7f8c8d;
+            transition: all 0.2s ease;
+        }
+
+        /* --- PASO 3: PANTALLA DE CELEBRACIÓN --- */
+        .pantalla-final {
+            display: none;
+            text-align: center;
+            width: 95%;
+            max-width: 580px;
+            padding: 45px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 24px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+            animation: fadeIn 1s ease forwards;
+            z-index: 10;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .pantalla-final h1 {
+            font-size: 2.8rem;
+            color: var(--marron-suave);
+            margin-bottom: 15px;
+        }
+
+        .contador-tiempo {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border-left: 6px solid var(--morado-bts);
+            margin-top: 35px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .contador-tiempo span {
+            font-weight: bold;
+            color: var(--morado-bts);
+        }
+
+        /* --- CONFETI SUPERIOR --- */
+        .confeti {
+            position: absolute;
+            top: -20px; 
+            width: 12px;
+            height: 12px;
+            pointer-events: none;
+            z-index: 100;
+            animation: caer 4s ease-out infinite;
+        }
+
+        @keyframes caer {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="musicaFondo" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    <button class="btn-audio" id="btnAudio" onclick="alternarMusica()">🎵</button>
+
+    <div class="contenedor" id="escenaPrincipal">
+        
+        <div class="sobre-wrapper" id="sobre" onclick="abrirCarta()">
+            <div class="sobre-interior"></div>
+            <div class="sello-girasol"></div>
+        </div>
+
+        <div class="tarjeta" id="tarjeta">
+            <div class="texto-carta">
+Desde que llegaste a mi vida, todo tiene un color mucho más brillante, justo como los girasoles que tanto me recuerdan a ti. Gracias por cada risa a la distancia y por ser mi lugar seguro en el mundo.
+            </div>
+            <div class="guiño-bts">I purple you 💜</div>
+            <div class="pregunta">¿Quieres ser mi novia?</div>
+            
+            <div class="bloque-botones" id="contenedorBotones">
+                <button class="btn btn-si" id="btnSi" onclick="aceptarPropuesta()">SÍ</button>
+                <button class="btn btn-no" id="btnNo" onmouseover="moverBotonNo()" onclick="moverBotonNo()">NO</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="pantalla-final" id="pantallaFinal">
+        <h1>¡Dijo que sí! <span>🌻💛💜</span></h1>
+        <p style="font-size: 1.25rem; color: #555;">El inicio oficial de nuestra hermosa historia...</p>
+        
+        <div class="contador-tiempo">
+            <p>Llevamos exactamente:</p>
+            <p id="relojContador">Cargando momentos felices... 💜</p>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURACIÓN DE TELEGRAM CONFIGURADA ---
+        const TELEGRAM_TOKEN = '8980126935:AAGr5yBq9tgA_c2NP04hPnV11_dM0oJcSNQ'; 
+        const TELEGRAM_CHAT_ID = '6857710428'; 
+
+        let intentosNo = 0;
+        let fechaInicio;
+        let intervaloReloj;
+        const musica = document.getElementById('musicaFondo');
+
+        // --- DISTRIBUCIÓN DE GIRASOLES POR TODA LA PANTALLA ---
+        function esparcirGirasoles() {
+            const posicionesEstables = [
+                {top: '10%', left: '8%'},  {top: '40%', left: '5%'},  {top: '75%', left: '10%'},
+                {top: '15%', left: '85%'}, {top: '45%', left: '88%'}, {top: '80%', left: '82%'},
+                {top: '5%', left: '48%'},  {top: '85%', left: '50%'}
+            ];
+
+            posicionesEstables.forEach(pos => {
+                const girasol = document.createElement('div');
+                girasol.classList.add('girasol-fondo');
+                girasol.innerText = '🌻';
+                girasol.style.top = pos.top;
+                girasol.style.left = pos.left;
+                girasol.style.transform = `rotate(${Math.floor(Math.random() * 40) - 20}deg)`;
+                document.body.appendChild(girasol);
+            });
+        }
+        esparcirGirasoles();
+
+        // Pétalos constantes flotantes
+        function crearPetalosFondo() {
+            setInterval(() => {
+                const petalo = document.createElement('div');
+                petalo.classList.add('petalo');
+                petalo.style.left = Math.random() * 100 + 'vw';
+                petalo.style.width = Math.random() * 12 + 8 + 'px';
+                petalo.style.height = Math.random() * 16 + 12 + 'px';
+                petalo.style.animationDuration = Math.random() * 4 + 6 + 's';
+                document.body.appendChild(petalo);
+                petalo.addEventListener('animationend', () => petalo.remove());
+            }, 1000);
+        }
+        crearPetalosFondo();
+
+        function alternarMusica() {
+            if (musica.paused) {
+                musica.play().catch(e => console.log("Interacción requerida"));
+                document.getElementById('btnAudio').innerText = '🎵';
+            } else {
+                musica.pause();
+                document.getElementById('btnAudio').innerText = '🔇';
+            }
+        }
+
+        function abrirCarta() {
+            const sobre = document.getElementById('sobre');
+            const tarjeta = document.getElementById('tarjeta');
+            sobre.classList.add('abierto');
+            musica.play().catch(err => console.log("Permisos de audio pendientes."));
+
+            setTimeout(() => {
+                sobre.style.display = 'none';
+                tarjeta.classList.add('activa');
+            }, 800);
+        }
+
+        // --- SISTEMA EVASIVO CON TRANSLATE (EVITA ERRORES EN MÓVILES) ---
+        function moverBotonNo() {
+            const btnNo = document.getElementById('btnNo');
+            intentosNo++;
+
+            const xAleatoria = Math.floor(Math.random() * 240) - 120;
+            const yAleatoria = Math.floor(Math.random() * 160) - 80;
+
+            btnNo.style.transform = `translate(${xAleatoria}px, ${yAleatoria}px)`;
+
+            if (intentosNo >= 3 && intentosNo < 5) {
+                btnNo.innerText = "¿Segura? 🥺";
+            } else if (intentosNo >= 5) {
+                btnNo.style.transform = "scale(0)";
+                setTimeout(() => { btnNo.style.display = 'none'; }, 200);
+            }
+        }
+
+        function aceptarPropuesta() {
+            document.getElementById('escenaPrincipal').style.display = 'none';
+            document.getElementById('pantallaFinal').style.display = 'block';
+            
+            fechaInicio = new Date(); 
+            
+            lanzarConfeti();
+            iniciarReloj();
+            notificarTelegram();
+        }
+
+        function iniciarReloj() {
+            intervaloReloj = setInterval(() => {
+                const ahora = new Date();
+                const diferencia = ahora - fechaInicio;
+
+                const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+                const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+                const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+                document.getElementById('relojContador').innerHTML = 
+                    `<span>${dias}</span> días, <span>${horas}</span> horas, <span>${minutos}</span> minutos y <span>${segundos}</span> segundos siendo novios 💜`;
+            }, 1000);
+        }
+
+        function lanzarConfeti() {
+            const colores = [ '#f1c40f', '#f4d03f', '#8e44ad', '#bb8fce', '#fef9e7' ];
+            setInterval(() => {
+                const confeti = document.createElement('div');
+                confeti.classList.add('confeti');
+                confeti.style.left = Math.random() * 100 + 'vw';
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                confeti.style.width = Math.random() * 8 + 8 + 'px';
+                confeti.style.height = Math.random() * 8 + 8 + 'px';
+                confeti.style.animationDuration = Math.random() * 2 + 2 + 's';
+                
+                document.body.appendChild(confeti);
+                confeti.addEventListener('animationend', () => confeti.remove());
+            }, 40); 
+        }
+
+        function notificarTelegram() {
+            const mensaje = encodeURIComponent("¡Dijo que SÍ! 🌻💜 Anunciando el inicio del contador.");
+            const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${mensaje}`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        console.error("Error al enviar la notificación a Telegram");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error de red:", error);
+                });
+        }
+    </script>
+</body>
+</html>
