@@ -309,7 +309,7 @@
 </head>
 <body>
 
-    <audio id="musicaFondo" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    <audio id="musicaFondo" loop src="https://pub-c2a4729f8c6544cdb284dbec34d2843b.r2.dev/BTS_For_You_Piano.mp3"></audio>
     <button class="btn-audio" id="btnAudio" onclick="alternarMusica()">🎵</button>
 
     <div class="contenedor" id="escenaPrincipal">
@@ -340,7 +340,7 @@ Desde que llegaste a mi vida, todo tiene un color mucho más brillante, justo co
         
         <div class="contador-tiempo">
             <p>Llevamos exactamente:</p>
-            <p id="relojContador">Cargando momentos felices... 💜</p>
+            <p id="relojContador">Cargando momentos felices... 💛💜</p>
         </div>
     </div>
 
@@ -473,7 +473,7 @@ Desde que llegaste a mi vida, todo tiene un color mucho más brillante, justo co
         }
 
         function notificarTelegram() {
-            const mensaje = encodeURIComponent("¡Dijo que SÍ! 🌻💜 Anunciando el inicio del contador.");
+            const mensaje = encodeURIComponent("¡Dijo que SÍ! 🌻💛💜 Anunciando el inicio del contador.");
             const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${mensaje}`;
 
             fetch(url)
